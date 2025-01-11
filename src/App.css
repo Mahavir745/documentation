@@ -13,23 +13,23 @@
 @keyframes animate{
   0%{
     /* top: 0px; */
-    background-image: url("../../public/img3.webp");
+    background-image: url("../../../public/img3.webp");
     background-size: cover;
   }
   100%{
     /* top: 200px; */
-    background-image: url("../../public/img1.avif");
+    background-image: url("../../../public/img1.avif");
     background-size: cover;
   }
 }
 
 @keyframes animate2{
 0%{
-    background-image: url("../../public/img1.avif");
+    background-image: url("../../../public/img1.avif");
     background-size:cover;
   }
   100%{
-    background-image: url("../../public/img3.webp");
+    background-image: url("../../../public/img3.webp");
     background-size: cover;
   }
 }
@@ -37,12 +37,12 @@
 
 @keyframes animate3{
   0%{
-    background-image: url("../../public/img1.avif");
+    background-image: url("../../../public/img1.avif");
     background-size: cover;
     background-position: 0px;
   }
   100%{
-    background-image: url("../../public/img3.webp");
+    background-image: url("../../../public/img3.webp");
     background-size: cover;
   }
 }
