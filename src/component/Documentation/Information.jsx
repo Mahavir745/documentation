@@ -6,50 +6,20 @@ import { dataProvider } from '../../store/AllDataStore';
 import List from './List';
 import { useNavigate, useParams } from 'react-router-dom';
 import Validation from './Validation';
-import { defaultVerifyUser } from '../../store/AllDataStore';
+import Loading from './Curriculum/Loading';
 const Information = ({ setPopupMessage }) => {
 
-  const { Overview, validationData } = useContext(dataProvider)
-  const navigate = useNavigate();
+  const { Overview } = useContext(dataProvider)
   const [data, setData] = useState()
-  let { part } = useParams();
-  const [studentVerify, setstudentVerify] = useState();
-
 
   let documentation = localStorage.getItem("documentation")
-
+  // todo: For documentation.
   useEffect(() => {
     const newdata = Overview.filter((item) => item.name === documentation)
     if (newdata.length > 0) {
       setData(newdata[0])
     }
   }, [documentation])
-
-  const HandleNavigate = () => {
-    part = documentation
-    navigate(`/documentation/${part}`);
-  };
-
-
-  if (validationData) {
-    useEffect(() => {
-      let data = defaultVerifyUser.filter(user => {
-        if (user.batch === documentation && user.email === validationData.emailId && user.hvaId === validationData.hvaId) {
-          console.log("found")
-          return user;
-        }
-      });
-      if (data.length > 0) {
-        setstudentVerify(true);
-      }
-      else{
-        setstudentVerify(false)
-      }
-    }, [validationData])
-  }
-
-
-
 
   return (
     <div>
@@ -62,18 +32,7 @@ const Information = ({ setPopupMessage }) => {
         </ul>
         <p className='font-bold text-blue-900'>{data?.summary || "Loading..."} </p>
         <p className='text-[12px] font-bold mb-3'>Ready to kickstart your journey in frontend development? <span>Click the link below to explore the Frontend Curriculum and start building amazing user interfaces today!</span></p>
-        {/* <div className='flex items-center gap-2'>
-          <button onClick={HandleNavigate} className='text-[14px] border border-fuchsia-700 text-fuchsia-800 bg-slate-300 p-2 rounded-md font-semibold hover:bg-slate-50 hover:border-gray-950 fontdesign'>{data?.name || "Loading..."} Curriculum</button>
-          <FaHandPointLeft className='text-fuchsia-600 text-2xl' />
-        </div>
-        <Validation /> */}
-
-        {studentVerify ? <div className='flex items-center gap-2'>
-          <button onClick={HandleNavigate} className='text-[14px] border border-fuchsia-700 text-fuchsia-800 bg-slate-300 p-2 rounded-md font-semibold hover:bg-slate-50 hover:border-gray-950 fontdesign'>{data?.name || "Loading..."} Curriculum</button>
-          <FaHandPointLeft className='text-fuchsia-600 text-2xl' />
-        </div> : <Validation studentVerify={studentVerify}/>
-        }
-
+        <Loading/>
       </div>
     </div>
   )

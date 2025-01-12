@@ -4,27 +4,52 @@ export const dataProvider = createContext({
   Overview: [],
   AllCurriculum: [],
   validationData: {},
-  verifyUser:()=>{}
+  verifyUser: () => { },
+  completedTrigger: false,
+  setCompletedTrigger: () => { },
+  submitAnswer: [],
+  addYourAnswers: () => { },
+  submitTrigger:false,
+  setSubmitTrigger:()=>{}
 })
 
-const HandleValidation = (currentData,action)=>{
+const HandleValidation = (currentData, action) => {
   let newData = currentData;
-  if(action.type === 'VERYFY_USER'){  let documentation = localStorage.getItem("documentation")
-    newData = {...action.payload}
+  if (action.type === 'VERYFY_USER') {
+    let documentation = localStorage.getItem("documentation")
+    newData = { ...action.payload }
   }
   return newData;
 }
 
+const HandleSubmitAnswer = (currentData, action) => {
+  let newdata = currentData;
+
+  if (action.type === 'SUBMIT_ANSWERS') {
+    newdata = [...currentData, action.payload]
+  }
+  return newdata
+}
+
 const DataStoreProvider = ({ children }) => {
 
-  const [validationData,dispatchedValidation] = useReducer(HandleValidation,{});
+  const [validationData, dispatchedValidation] = useReducer(HandleValidation, {});
+  const [submitAnswer, dispatchedsubmitAnswer] = useReducer(HandleSubmitAnswer, []);
 
-  const verifyUser = (batch,hvaId,emailId)=>{
+
+  const verifyUser = (batch, hvaId, emailId) => {
     dispatchedValidation({
       type: "VERYFY_USER",
-      payload:{
-        batch,hvaId,emailId
+      payload: {
+        batch, hvaId, emailId
       }
+    })
+  }
+
+  const addYourAnswers = (answers) => {
+    dispatchedsubmitAnswer({
+      type: 'SUBMIT_ANSWERS',
+      payload: answers
     })
   }
 
@@ -117,6 +142,11 @@ const DataStoreProvider = ({ children }) => {
                 "Action attribute. Method attribute (only type of request)",
               ]
             },
+          ],
+          completedTest: [
+            "What is Html",
+            "How many tags are in Html",
+            "What do you mean by symmentric and non-symmentric"
           ]
         },
         {
@@ -241,6 +271,11 @@ const DataStoreProvider = ({ children }) => {
                 "Inspect Element",
               ]
             },
+          ],
+          completedTest: [
+            "What is Css",
+            "How many ways to use css file",
+            "What do you mean by spudeo code"
           ]
         },
         {
@@ -579,7 +614,8 @@ const DataStoreProvider = ({ children }) => {
             }
           ]
         }
-      ]
+      ],
+
     },
     {
       name: "backend",
@@ -697,12 +733,22 @@ const DataStoreProvider = ({ children }) => {
     },
   ]
 
+  //todo: completed question trigger
+  const [completedTrigger, setCompletedTrigger] = useState(false);
+  const [submitTrigger, setSubmitTrigger] = useState(false)
+
   return (
     <dataProvider.Provider value={{
       Overview,
       AllCurriculum,
       validationData,
       verifyUser,
+      completedTrigger,
+      setCompletedTrigger,
+      submitAnswer,
+      addYourAnswers,
+      submitTrigger, 
+      setSubmitTrigger
     }}>
       {children}
     </dataProvider.Provider>

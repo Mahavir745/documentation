@@ -1,8 +1,10 @@
 import React, { useContext, useRef } from 'react'
 import { RiChatSmile2Fill } from "react-icons/ri";
 import { dataProvider } from '../../store/AllDataStore';
-const Validation = ({studentVerify}) => {
 
+
+
+const Validation = () => {
  const {verifyUser} =  useContext(dataProvider);
   const hvaElement = useRef();
   const emailElement = useRef();
@@ -14,9 +16,7 @@ const Validation = ({studentVerify}) => {
     const emailId = emailElement.current.value;
     const batch = documentation
     verifyUser(batch,hvaId,emailId);
-  }
-  let newmessage =  !studentVerify? <p className='text-red-900 font-semibold'>Please ensure, you have valid batch Ids</p>: <p>Welcome</p>
- 
+  } 
 
   return (
     <form onSubmit={(e)=>HandleValidation(e)}>
@@ -38,7 +38,6 @@ const Validation = ({studentVerify}) => {
           <button type="submit" className='bg-indigo-700 text-white p-2 w-[100%] rounded-md'>Verify</button>
         </div>
       </div>
-      {newmessage}
     </form>
   )
 }
